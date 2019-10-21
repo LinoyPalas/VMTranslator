@@ -121,6 +121,27 @@ class Encoder:
 	Arithmetic and Logic.
 	"""
 	def _write_arithmetic(self, command):
+		if command == 'add':
+
+		elif command == 'sub':
+
+		elif command == 'neg':
+
+		elif command == 'eq':
+
+		elif command == 'gt':
+
+		elif command == 'lt':
+
+		elif command == 'and':
+
+		elif command == 'or':
+
+		elif command == 'not':
+
+		else:
+			raise Exception('Unrecognized arithmetic command.')
+
 		return
 
 	"""
