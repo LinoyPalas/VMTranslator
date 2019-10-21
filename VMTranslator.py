@@ -23,7 +23,7 @@ class VMTranslator:
 		f.close()
 
 	def run(self):
-		encoded_commands = self._encoder.code(self._commands_to_code)
+		encoded_commands = self._encoder.code_command(self._commands_to_code)
 		VMTranslator.write_commands_to_file(file_name=self.vm_file, commands=encoded_commands)
 
 

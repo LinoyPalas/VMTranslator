@@ -13,8 +13,16 @@ class Encoder:
 	SEGMENT_IND = 1
 	INDEX_IND = 2
 
-	# Dictionary which describes the code command of each command.
-	commands_dict = {
+	def __init__(self, file_name):
+		"""
+		:param file_name: The name of the file we are working on.
+		Used when using the 'static' segment.
+		"""
+		self._file_name = file_name
+		self._coded_command = []
+
+		# Dictionary which describes the code_command command of each command.
+		self._commands_dict = {
 					'push': 'C_PUSH',
 					'pop': 'C_POP',
 					'add': 'C_ARITHMETIC',
@@ -28,36 +36,27 @@ class Encoder:
 					'not': 'C_ARITHMETIC'
 					}
 
-	# Dictionary describes the address in memory of each symbol.
-	addresses_dict = {
-					'stack_pointer': 'SP',  # R0
-					'local': 'LCL',  # R1
-					'argument': 'ARG',  # R2
-					'this': 'THIS',  # R3
-					'that': 'THAT',  # R4
-					'pointer': 3,  # R3 - R4
-					'temp': 5,  # R5 - R12
-					'static': 16  # 16 - 255
-					}
+		# Dictionary describes the address in memory of each symbol.
+		self._addresses_dict = {
+			'stack_pointer': 'SP',  # R0
+			'local': 'LCL',  # R1
+			'argument': 'ARG',  # R2
+			'this': 'THIS',  # R3
+			'that': 'THAT',  # R4
+			'pointer': 3,  # R3 - R4
+			'temp': 5,  # R5 - R12
+			'static': 16  # 16 - 255
+		}
 
-	def __init__(self, file_name):
-		"""
-		:param file_name: The name of the file we are working on.
-		Used when using the 'static' segement.
-		"""
-		self._file_name = file_name
-		self._coded_command = []
-
-	@staticmethod
-	def command_type(row):
-		return Encoder.commands_dict[row[Encoder.CMD_IND]]
+	def get_command_type(self, row):
+		return self._commands_dict[row[Encoder.CMD_IND]]
 
 	"""
 	-----------
 	Pop and Push.
 	"""
 	def _write_address_commands(self, segment, index):
-		segment_address_in_memory = Encoder.addresses_dict[segment]
+		segment_address_in_memory = self._addresses_dict[segment]
 
 		if segment == 'constant':  # No specific memory address.
 			self._coded_command.append('@' + str(index))
@@ -127,10 +126,10 @@ class Encoder:
 	"""
 	-----------
 	Main Method.
-	Receives the command to code and returns the coded commands in a list.
+	Receives the command to code_command and returns the coded commands in a list.
 	"""
-	def code(self, command):
-		command_type = Encoder.command_type(command)
+	def code_command(self, command):
+		command_type = self.get_command_type(command)
 
 		if command_type == 'C_ARITHMETIC':
 			self._write_arithmetic(command)
